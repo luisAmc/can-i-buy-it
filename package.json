@@ -6,25 +6,47 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "yarn codegen:schema && yarn codegen:graphql",
+    "codegen:graphql": "graphql-codegen",
+    "codegen:schema": "ts-node --transpile-only -r tsconfig-paths/register src/pages/api/graphql.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.11",
+    "@hookform/resolvers": "^2.8.8",
+    "@pothos/core": "^3.3.3",
     "@pothos/plugin-prisma": "^3.1.1",
+    "@pothos/plugin-relay": "^3.6.0",
+    "@pothos/plugin-scope-auth": "^3.4.2",
+    "@pothos/plugin-simple-objects": "^3.0.3",
     "@prisma/client": "3.11.1",
+    "graphql": "^16.3.0",
+    "graphql-helix": "^1.12.0",
     "next": "12.1.1",
+    "next-iron-session": "^4.2.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-hook-form": "^7.28.1",
+    "secure-password": "^4.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "17.0.23",
     "@types/react": "17.0.43",
     "@types/react-dom": "17.0.14",
+    "@types/secure-password": "^3.1.1",
     "autoprefixer": "^10.4.4",
     "eslint": "8.12.0",
     "eslint-config-next": "12.1.1",
     "postcss": "^8.4.12",
     "prisma": "^3.11.1",
     "tailwindcss": "^3.0.23",
+    "ts-node": "^10.7.0",
     "typescript": "4.6.3"
   }
 }
