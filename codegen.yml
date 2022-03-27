@@ -1,12 +1,22 @@
 overwrite: true
+errorsOnly: true
 schema: schema.graphql
-documents: './src/**/*.tsx'
+documents: 'src/**/!(*.d).{ts,tsx}'
 generates:
-  src/graphql/__generated__/generated.ts:
+  src/__generated__/schema.generated.ts:
+    plugins:
+      - typescript
     config:
       scalars:
         DateTime: string
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      folder: __generated__
+      baseTypesPath: '__generated__/schema.generated.ts'
     plugins:
-      - typescript
       - typescript-operations
-      - typescript-react-apollo
+    config:
+      omitOperationSuffix: true
+      scalars:
+        DateTime: string
