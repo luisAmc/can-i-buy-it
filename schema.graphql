@@ -4,6 +4,14 @@ type Budget {
   limit: Float!
 }
 
+input CreateTransactionInput {
+  amount: Float!
+  category: String!
+  date: DateTime!
+  notes: String!
+  type: String!
+}
+
 scalar DateTime
 
 input LoginInput {
@@ -12,6 +20,7 @@ input LoginInput {
 }
 
 type Mutation {
+  createTransaction(input: CreateTransactionInput!): Transaction!
   login(input: LoginInput!): User!
   signUp(input: SignUpInput!): User!
 }
@@ -31,11 +40,13 @@ type Transaction {
   date: DateTime!
   id: ID!
   notes: String
+  type: String!
 }
 
 type User {
   budgets: [Budget!]!
   id: ID!
-  transactions: [Transaction!]!
+  transactions(limit: Int! = 5, offset: Int! = 0): [Transaction!]!
+  transactionsCount: Int!
   username: String!
 }

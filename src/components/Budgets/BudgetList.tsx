@@ -16,7 +16,7 @@ interface Props {
 
 export function BudgetList({ budgets }: Props) {
   return (
-    <Container title='Budget' size='full'>
+    <Container title='Budgets' size='full'>
       {budgets.length > 0 ? (
         <div>
           {budgets.map((budget) => (

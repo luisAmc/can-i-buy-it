@@ -3,15 +3,16 @@ import { ReactNode } from 'react';
 
 interface Props {
   title?: string;
-  children: ReactNode;
+  action?: ReactNode;
   size?: 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full';
+  children: ReactNode;
 }
 
-export function Container({ title, size = 'lg', children }: Props) {
+export function Container({ title, action, size = 'lg', children }: Props) {
   return (
     <div
       className={clsx(
-        'w-full mx-auto border sm:rounded-xl shadow-md bg-white py-8 px-6',
+        'w-full mx-auto border md:rounded-xl shadow-md bg-white py-8 px-6',
         {
           'sm:max-w-lg': size === 'lg',
           'sm:max-w-xl': size === 'xl',
@@ -22,9 +23,10 @@ export function Container({ title, size = 'lg', children }: Props) {
         }
       )}
     >
-      {title && (
-        <div className='flex items-center justify-between mb-4'>
-          <h1 className='text-3xl'>{title}</h1>
+      {(title || action) && (
+        <div className='flex items-center justify-between mb-8'>
+          <h1 className='text-3xl font-medium'>{title}</h1>
+          {action}
         </div>
       )}
 

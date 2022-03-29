@@ -1,13 +1,13 @@
+import { Container } from '../shared/Container';
 import { Form, useYupForm } from '../shared/Form';
 import { gql, useMutation } from '@apollo/client';
+import { Input } from '../shared/Input';
+import { object, string } from 'yup';
+import { useAuthRedirect } from 'src/utils/useAuthRedirect';
 import {
   LoginFormMutation,
   LoginFormMutationVariables
-} from 'src/graphql/__generated__/generated';
-import { object, string } from 'yup';
-import { useAuthRedirect } from 'src/utils/useAuthRedirect';
-import { Container } from '../shared/Container';
-import { Input } from '../shared/Input';
+} from './__generated__/LoginForm.generated';
 
 const loginSchema = object().shape({
   username: string().trim().required('Ingrese el nombre de usuario.'),
@@ -22,7 +22,7 @@ export function LoginForm() {
 
   const [login] = useMutation<LoginFormMutation, LoginFormMutationVariables>(
     gql`
-      mutation LoginForm($input: LoginInput!) {
+      mutation LoginFormMutation($input: LoginInput!) {
         login(input: $input) {
           id
         }
@@ -54,7 +54,11 @@ export function LoginForm() {
       >
         <Input {...form.register('username')} label='Usuario' />
 
-        <Input {...form.register('password')} label='Contraseña' />
+        <Input
+          {...form.register('password')}
+          label='Contraseña'
+          type='password'
+        />
 
         <button
           type='submit'

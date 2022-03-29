@@ -31,33 +31,40 @@ model Session {
   userId    String
 }
 
-enum Category {
+enum TRANSACTION_TYPE {
+  INCOME
+  EXPENSE
+}
+
+enum CATEGORY {
   PAYMENT
   FOOD
   ENTERTAINMENT
   HOME
   CAR
   SERVICE
+  OTHER
 }
 
 model Budget {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  category  Category
+  category  CATEGORY
   limit     Float
   user      User     @relation(fields: [userId], references: [id])
   userId    String
 }
 
 model Transaction {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String           @id @default(uuid())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
   date      DateTime
   amount    Float
   notes     String?
-  category  Category
-  user      User     @relation(fields: [userId], references: [id])
+  category  CATEGORY
+  type      TRANSACTION_TYPE
+  user      User             @relation(fields: [userId], references: [id])
   userId    String
 }

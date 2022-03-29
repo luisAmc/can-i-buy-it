@@ -20,6 +20,14 @@ export type Budget = {
   limit: Scalars['Float'];
 };
 
+export type CreateTransactionInput = {
+  amount: Scalars['Float'];
+  category: Scalars['String'];
+  date: Scalars['DateTime'];
+  notes: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type LoginInput = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -27,8 +35,14 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createTransaction: Transaction;
   login: User;
   signUp: User;
+};
+
+
+export type MutationCreateTransactionArgs = {
+  input: CreateTransactionInput;
 };
 
 
@@ -58,6 +72,7 @@ export type Transaction = {
   date: Scalars['DateTime'];
   id: Scalars['ID'];
   notes?: Maybe<Scalars['String']>;
+  type: Scalars['String'];
 };
 
 export type User = {
@@ -65,5 +80,12 @@ export type User = {
   budgets: Array<Budget>;
   id: Scalars['ID'];
   transactions: Array<Transaction>;
+  transactionsCount: Scalars['Int'];
   username: Scalars['String'];
+};
+
+
+export type UserTransactionsArgs = {
+  limit?: Scalars['Int'];
+  offset?: Scalars['Int'];
 };

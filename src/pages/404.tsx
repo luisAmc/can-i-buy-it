@@ -29,7 +29,7 @@ export default function Custom404() {
         </div>
 
         <div className='relative h-full'>
-          <BigBlobSVG className='absolute fill-indigo-300 -right-18 -top-40' />
+          <BigBlobSVG className='absolute fill-indigo-300 -top-40 lg:-right-[70px]' />
 
           <div className='h-full flex items-center justify-center'>
             <img

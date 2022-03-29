@@ -7,7 +7,20 @@ builder.prismaObject('User', {
     id: t.exposeID('id'),
     username: t.exposeString('username'),
     budgets: t.relation('budgets'),
-    transactions: t.relation('transactions')
+    transactions: t.relation('transactions', {
+      args: {
+        offset: t.arg.int({ defaultValue: 0 }),
+        limit: t.arg.int({ defaultValue: 5 })
+      },
+      query: ({ offset, limit }) => ({
+        take: limit,
+        skip: offset,
+        orderBy: {
+          updatedAt: 'desc'
+        }
+      })
+    }),
+    transactionsCount: t.relationCount('transactions')
   })
 });
 
