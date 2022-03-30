@@ -10,7 +10,7 @@ export function TableHeader({ label, className }: TableHeaderProps) {
   return (
     <th
       className={clsx(
-        'px-6 py-3 text-left text-xs font-medium bg-gray-100 text-gray-600 uppercase tracking-wider',
+        'px-6 py-4 text-left text-sm font-semibold bg-white text-slate-700 uppercase tracking-wider',
         className
       )}
     >
@@ -54,7 +54,7 @@ interface TableProps<T> {
 
 export function Table<T>({ header, values, children }: TableProps<T>) {
   return (
-    <div className='shadow overflow-hidden border-b border-gray-200 sm:rounded-lg'>
+    <div className='overflow-hidden'>
       <table className='min-w-full divide-y divide-gray-200'>
         <thead className='bg-gray-50'>
           <tr className='flex flex-col sm:table-row'>{header}</tr>

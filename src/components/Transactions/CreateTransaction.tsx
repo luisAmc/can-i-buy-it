@@ -84,7 +84,7 @@ export function CreateTransaction() {
     <div className='relative md:flex md:px-12 xl:p-4'>
       <img
         src='/images/purchasing.png'
-        className='absolute hidden md:block h-full right-0 aspect-square'
+        className='absolute hidden md:block h-full right-0 aspect-auto'
       />
       
       <div className='relative'>

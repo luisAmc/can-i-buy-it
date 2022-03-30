@@ -10,7 +10,7 @@ export function ListItem({ children }: ListItemProps) {
 
 interface ListProps<T> {
   values: readonly T[];
-  children: (items: T, i: number) => ReactNode;
+  children: (item: T, i: number) => ReactNode;
 }
 
 export function List<T>({ values, children }: ListProps<T>) {
