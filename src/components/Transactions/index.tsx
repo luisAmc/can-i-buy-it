@@ -33,7 +33,7 @@ export function Transactions() {
   const transactions = data?.me?.transactions ?? [];
 
   return (
-    <div className='relative bg-violet-200 rounded-xl overflow-hidden sm:overflow-visible'>
+    <div className='mt-4 relative bg-violet-200 rounded-xl overflow-hidden sm:overflow-visible shadow'>
       <div className='relative pt-12 px-4 md:px-12 pb-6'>
         <div className='w-[200px] md:w-[230px] flex flex-col space-y-2'>
           <h1 className='text-3xl md:text-4xl font-medium text-violet-900'>
@@ -61,75 +61,126 @@ export function Transactions() {
       <div className='relative'>
         {loading && <Shimmer />}
 
-        {transactions.length === 0 ? (
-          <Empty />
-        ) : (
-          <div className='flex flex-col space-y-4 bg-white border-b rounded-xl pb-5 border'>
-            <Table
-              values={transactions}
-              header={
-                <>
-                  <TableHeader label='#' className='sm:w-5' />
-                  <TableHeader label='Fecha' />
-                  <TableHeader label='Tipo' />
-                  <TableHeader label='Categoría' />
-                  <TableHeader label='Cantidad' className='text-right' />
-                </>
-              }
-            >
-              {(transaction, i) => (
-                <TableRow key={transaction.id}>
-                  <TableDataCell>{i + 1}</TableDataCell>
-                  <TableDataCell>
-                    <div className='text-slate-500 font-semibold'>
-                      {transaction.date}
-                    </div>
-                    <div className='text-base text-slate-600'>
-                      {transaction.notes}
-                    </div>
-                  </TableDataCell>
-                  <TableDataCell>{transaction.type}</TableDataCell>
-                  <TableDataCell>{transaction.category}</TableDataCell>
-                  <TableDataCell className='text-right font-semibold'>
-                    {transaction.amount}
-                  </TableDataCell>
-                </TableRow>
-              )}
-            </Table>
+        {!loading &&
+          (transactions.length === 0 ? (
+            <Empty />
+          ) : (
+            <div className='flex flex-col space-y-4 bg-white border-b rounded-xl pb-5 border'>
+              <Table
+                values={transactions}
+                header={
+                  <>
+                    <TableHeader label='#' className='sm:w-5' />
+                    <TableHeader label='Fecha' />
+                    <TableHeader label='Tipo' />
+                    <TableHeader label='Categoría' />
+                    <TableHeader label='Cantidad' className='text-right' />
+                  </>
+                }
+              >
+                {(transaction, i) => (
+                  <TableRow key={transaction.id}>
+                    <TableDataCell>{i + 1}</TableDataCell>
+                    <TableDataCell>
+                      <div className='text-slate-500 font-semibold'>
+                        {transaction.date}
+                      </div>
+                      <div className='text-base text-slate-600'>
+                        {transaction.notes}
+                      </div>
+                    </TableDataCell>
+                    <TableDataCell>{transaction.type}</TableDataCell>
+                    <TableDataCell>{transaction.category}</TableDataCell>
+                    <TableDataCell className='text-right font-semibold'>
+                      {transaction.amount}
+                    </TableDataCell>
+                  </TableRow>
+                )}
+              </Table>
 
-            <div className='text-center text-sm text-slate-400 space-x-1'>
-              <span>{data?.me?.transactions.length}</span>
-              <span>de</span>
-              <span>{data?.me?.transactionsCount}</span>
+              <div className='text-center text-sm text-slate-400 space-x-1'>
+                <span>{data?.me?.transactions.length}</span>
+                <span>de</span>
+                <span>{data?.me?.transactionsCount}</span>
+              </div>
+
+              {!loading &&
+                data?.me?.transactions &&
+                data.me.transactionsCount > data.me.transactions.length && (
+                  <div className='flex flex-col justify-center px-4'>
+                    <button
+                      className='mt-4 flex items-center justify-center px-4 py-2 rounded-md transition-all ease-in-out hover:bg-brand-50 hover:opacity-75'
+                      onClick={() =>
+                        fetchMore({
+                          variables: { offset: data.me?.transactions.length }
+                        })
+                      }
+                    >
+                      <div className='text-brand-900 text-sm font-medium'>
+                        Ver más
+                      </div>
+                    </button>
+                  </div>
+                )}
             </div>
-
-            {!loading &&
-              data?.me?.transactions &&
-              data.me.transactionsCount > data.me.transactions.length && (
-                <div className='flex flex-col justify-center px-4'>
-                  <button
-                    className='bg-slate-100 px-4 py-2 rounded-md text-sm text-slate-600 font-medium hover:opacity-75'
-                    onClick={() =>
-                      fetchMore({
-                        variables: { offset: data.me?.transactions.length }
-                      })
-                    }
-                  >
-                    Ver más
-                  </button>
-                </div>
-              )}
-          </div>
-        )}
+          ))}
       </div>
     </div>
   );
 }
 
 function Shimmer() {
-  return <div className='h-6 w-full bg-gray-300'></div>;
+  return (
+    <div className='bg-white'>
+      <div className='animate-pulse flex flex-col gap-4 p-4'>
+        <div className='flex flex-row gap-5'>
+          <div className='h-6 w-5 bg-gray-300 rounded-md'></div>
+          <div className='h-6 w-5/12 bg-gray-300 rounded-md'></div>
+          <div className='h-6 w-2/12 bg-gray-300 rounded-md'></div>
+          <div className='h-6 w-2/12 bg-gray-300 rounded-md'></div>
+          <div className='h-6 w-2/12 bg-gray-300 rounded-md'></div>
+        </div>
+
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={`shimmer-row-${i}`} className='flex flex-row gap-5'>
+            <div className='h-6 w-5 bg-gray-200 rounded-md'></div>
+            <div className='h-6 w-5/12 bg-gray-200 rounded-md'></div>
+            <div className='h-6 w-2/12 bg-gray-200 rounded-full'></div>
+            <div className='h-6 w-2/12 bg-gray-200 rounded-full'></div>
+            <div className='h-6 w-2/12 bg-gray-200 rounded-md'></div>
+          </div>
+        ))}
+
+        <div className='flex flex-row justify-center space-x-2'>
+          <div className='h-6 w-7 bg-gray-200 rounded-md'></div>
+          <div className='h-6 w-3 bg-gray-200 rounded-md'></div>
+          <div className='h-6 w-7 bg-gray-200 rounded-md'></div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function Empty() {
-  return <div>No hay :(</div>;
+  return (
+    <div className='bg-white rounded-b-xl'>
+      <div className='flex flex-col gap-8 items-center justify-center py-12 px-4'>
+        <img src='/images/searching.png' className='h-[250px] md:h-[350px]' />
+
+        <Link href='/transactions/create' passHref>
+          <a className='border-2 border-dashed border-gray-200 rounded-md p-6 hover:bg-gray-50 hover:border-gray-300'>
+            <div className='flex flex-col justify-center items-center'>
+              <PlusIcon className='w-8 h-8 text-slate-500 mb-2' />
+              <p className='text-center font-bold text-slate-700'>
+                No se hay nada por aquí todavía
+              </p>
+              <p className='text-center text-sm text-slate-500'>
+                Presiona aquí para crear una transacción
+              </p>
+            </div>
+          </a>
+        </Link>
+      </div>
+    </div>
+  );
 }

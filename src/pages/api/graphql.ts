@@ -28,10 +28,7 @@ interface GraphQLRequest {
 }
 
 const handler: NextApiHandler = async (req, res) => {
-  if (
-    req.method === 'POST' &&
-    req.headers['x-csrf-trick'] !== 'canIBuyIt'
-  ) {
+  if (req.method === 'POST' && req.headers['x-csrf-trick'] !== 'canIBuyIt') {
     res.status(400);
     res.end('Missing CSRF verification.');
     return;

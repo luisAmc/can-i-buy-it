@@ -3,8 +3,6 @@ import { preloadQuery } from 'src/apolloEnvironment';
 import { query } from 'src/components/Transactions';
 import { authenticatedRoute } from 'src/utils/redirects';
 
-// export const getServerSideProps: GetServerSideProps = authenticatedRoute;
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const auth = await authenticatedRoute(ctx);
   if ('redirect' in auth) {

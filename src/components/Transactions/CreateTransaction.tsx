@@ -14,6 +14,7 @@ import {
   CreateTransactionMutationVariables
 } from './__generated__/CreateTransaction.generated';
 import { useRouter } from 'next/router';
+import { TransactionInfoFragment } from './TransactionsList';
 
 const createTransactionSchema = object().shape({
   date: date(),
@@ -33,24 +34,25 @@ export function CreateTransaction() {
       mutation CreateTransactionMutation($input: CreateTransactionInput!) {
         createTransaction(input: $input) {
           id
+          date
+          type
+          ...TransactionInfo_transaction
         }
       }
+      ${TransactionInfoFragment}
     `,
     {
       update(cache, { data }) {
         if (!data?.createTransaction) return;
 
-        console.log({ cache1: cache });
-
         cache.modify({
+          id: 'User',
           fields: {
             transactions(existingTransactions = []) {
               return [data.createTransaction, ...existingTransactions];
             }
           }
         });
-
-        console.log({ cache2: cache });
       },
       onCompleted() {
         router.push('/transactions');
@@ -84,9 +86,9 @@ export function CreateTransaction() {
     <div className='relative md:flex md:px-12 xl:p-4'>
       <img
         src='/images/purchasing.png'
-        className='absolute hidden md:block h-full right-0 aspect-auto'
+        className='absolute hidden md:block h-[90%] right-0 aspect-auto'
       />
-      
+
       <div className='relative'>
         <Container title='Crear transacción'>
           <Form form={form} onSubmit={onSubmit}>
