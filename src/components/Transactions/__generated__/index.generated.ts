@@ -6,4 +6,4 @@ export type TransactionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type TransactionsQuery = { __typename?: 'Query', me?: { __typename?: 'User', transactionsCount: number, transactions: Array<{ __typename?: 'Transaction', id: string, amount: number, date: string, notes?: string | null, type: string, category: string }> } | null };
+export type TransactionsQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, transactionsCount: number, transactions: Array<{ __typename?: 'Transaction', id: string, date: string, type: string, category: string, amount: number, notes?: string | null }> } | null };

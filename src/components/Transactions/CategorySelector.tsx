@@ -56,7 +56,8 @@ function SingleCategory({
   onClick
 }: SingleCategoryProps) {
   return (
-    <div
+    <button
+      type='button'
       className={clsx(
         'h-20 flex flex-col items-center justify-center p-4 rounded-md transition-all ease-in-out cursor-pointer select-none text-sm border-2',
         isSelected
@@ -67,6 +68,6 @@ function SingleCategory({
     >
       {isSelected && <CheckIcon className='w-10 h-10 mr-1' />}
       <span>{label}</span>
-    </div>
+    </button>
   );
 }

@@ -33,7 +33,7 @@ export default function Custom404() {
 
           <div className='h-full flex items-center justify-center'>
             <img
-              src='/images/03c4832a-f8b4-4920-8880-5de5304bb10f.png'
+              src='/images/404.png'
               className='relative w-[300px] md:w-[520px] aspect-square'
             />
           </div>

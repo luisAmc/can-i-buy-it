@@ -46,7 +46,7 @@ type Transaction {
 type User {
   budgets: [Budget!]!
   id: ID!
-  transactions(limit: Int! = 5, offset: Int! = 0): [Transaction!]!
+  transactions(limit: Int! = 2, offset: Int! = 0): [Transaction!]!
   transactionsCount: Int!
   username: String!
 }

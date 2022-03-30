@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client';
 import { PlusIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import { Transaction } from 'src/__generated__/schema.generated';
 import { Container } from '../shared/Container';
 import { List, ListItem } from '../shared/List';
 import { TransactionInfo_Transaction } from './__generated__/TransactionsList.generated';
@@ -37,13 +36,10 @@ export function TransactionList({ transactions }: Props) {
     >
       <div className='mb-5'>
         {transactions.length > 0 ? (
-          // <div>
-          //   {transactions.map((transaction) => (
-          //     <div>{transaction.id}</div>
-          //   ))}
-          // </div>
           <List values={transactions}>
-            {(transaction, i) => <TransactionItem data={transaction} />}
+            {(transaction, i) => (
+              <TransactionItem key={transaction.id} data={transaction} />
+            )}
           </List>
         ) : (
           <div>No hay transactions</div>

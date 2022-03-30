@@ -13,6 +13,7 @@ export function Dashboard() {
   const { data } = useQuery<DashboardQuery, DashboardQueryVariables>(gql`
     query DashboardQuery {
       me {
+        id
         budgets {
           ...BudgetInfo_budget
         }

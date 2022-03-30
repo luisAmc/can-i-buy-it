@@ -40,6 +40,8 @@ export function CreateTransaction() {
       update(cache, { data }) {
         if (!data?.createTransaction) return;
 
+        console.log({ cache1: cache });
+
         cache.modify({
           fields: {
             transactions(existingTransactions = []) {
@@ -47,6 +49,8 @@ export function CreateTransaction() {
             }
           }
         });
+
+        console.log({ cache2: cache });
       },
       onCompleted() {
         router.push('/transactions');
@@ -77,39 +81,48 @@ export function CreateTransaction() {
   }
 
   return (
-    <Container title='Crear transacción'>
-      <Form form={form} onSubmit={onSubmit}>
-        <AmountInput
-          {...form.register('amount')}
-          label='Cantidad'
-          type='number'
-          placeholder='0.0'
-        />
+    <div className='relative md:flex md:px-12 xl:p-4'>
+      <img
+        src='/images/purchasing.png'
+        className='absolute hidden md:block h-full right-0 aspect-square'
+      />
+      
+      <div className='relative'>
+        <Container title='Crear transacción'>
+          <Form form={form} onSubmit={onSubmit}>
+            <AmountInput
+              {...form.register('amount')}
+              label='Cantidad'
+              type='number'
+              placeholder='0.0'
+            />
 
-        <CategorySelector
-          name='category'
-          label='Categoría'
-          options={[
-            { label: 'Entretenimiento', value: CATEGORY.ENTERTAINMENT },
-            { label: 'Comida', value: CATEGORY.FOOD },
-            { label: 'Vehículo', value: CATEGORY.CAR },
-            { label: 'Hogar', value: CATEGORY.HOME },
-            { label: 'Servicio', value: CATEGORY.SERVICE },
-            { label: 'Otro', value: CATEGORY.OTHER }
-          ]}
-        />
+            <CategorySelector
+              name='category'
+              label='Categoría'
+              options={[
+                { label: 'Entretenimiento', value: CATEGORY.ENTERTAINMENT },
+                { label: 'Comida', value: CATEGORY.FOOD },
+                { label: 'Vehículo', value: CATEGORY.CAR },
+                { label: 'Hogar', value: CATEGORY.HOME },
+                { label: 'Servicio', value: CATEGORY.SERVICE },
+                { label: 'Otro', value: CATEGORY.OTHER }
+              ]}
+            />
 
-        <Input {...form.register('date')} label='Fecha' type='date' />
+            <Input {...form.register('date')} label='Fecha' type='date' />
 
-        <TextArea {...form.register('notes')} label='Notas (Opcional)' />
+            <TextArea {...form.register('notes')} label='Notas (Opcional)' />
 
-        <button
-          type='submit'
-          className='bg-brand-200 px-3 py-2 rounded-md font-medium text-brand-700 hover:opacity-75'
-        >
-          Crear transacción
-        </button>
-      </Form>
-    </Container>
+            <button
+              type='submit'
+              className='bg-brand-200 px-3 py-2 rounded-md font-medium text-brand-700 hover:opacity-75'
+            >
+              Crear transacción
+            </button>
+          </Form>
+        </Container>
+      </div>
+    </div>
   );
 }

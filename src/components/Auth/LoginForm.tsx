@@ -4,6 +4,7 @@ import { gql, useMutation } from '@apollo/client';
 import { Input } from '../shared/Input';
 import { object, string } from 'yup';
 import { useAuthRedirect } from 'src/utils/useAuthRedirect';
+import { query as HeaderQuery } from '../Header';
 import {
   LoginFormMutation,
   LoginFormMutationVariables
@@ -29,6 +30,7 @@ export function LoginForm() {
       }
     `,
     {
+      refetchQueries: [{ query: HeaderQuery }],
       onCompleted() {
         authRedirect();
       }

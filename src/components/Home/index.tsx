@@ -6,6 +6,7 @@ import { MeQuery } from './__generated__/index.generated';
 const LayoutQuery = gql`
   query MeQuery {
     me {
+      id
       username
     }
   }

@@ -10,7 +10,7 @@ builder.prismaObject('User', {
     transactions: t.relation('transactions', {
       args: {
         offset: t.arg.int({ defaultValue: 0 }),
-        limit: t.arg.int({ defaultValue: 5 })
+        limit: t.arg.int({ defaultValue: 2 })
       },
       query: ({ offset, limit }) => ({
         take: limit,
