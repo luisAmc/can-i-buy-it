@@ -23,7 +23,7 @@ export function Header() {
           <div className='font-medium text-4xl text-slate-700'>
             ¡Hola, {data.me.username}!
           </div>
-          <div>{formatDate(new Date())}</div>
+          <div>{formatDate(new Date(), 'extended')}</div>
         </div>
 
         <div className='flex items-center space-x-2'>

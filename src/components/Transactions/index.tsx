@@ -7,6 +7,11 @@ import {
   TransactionsQuery,
   TransactionsQueryVariables
 } from './__generated__/index.generated';
+import { Pill, Props as PillProps } from '../shared/Pill';
+import { CATEGORY, TRANSACTION_TYPE } from '@prisma/client';
+import { formatCurrency, formatDate } from 'src/utils/transforms';
+import { List, ListItem } from '../shared/List';
+import { Transaction } from 'src/__generated__/schema.generated';
 
 export const query = gql`
   query TransactionsQuery($offset: Int, $limit: Int) {
@@ -65,67 +70,126 @@ export function Transactions() {
           (transactions.length === 0 ? (
             <Empty />
           ) : (
-            <div className='flex flex-col space-y-4 bg-white border-b rounded-xl pb-5 border'>
-              <Table
-                values={transactions}
-                header={
-                  <>
-                    <TableHeader label='#' className='sm:w-5' />
-                    <TableHeader label='Fecha' />
-                    <TableHeader label='Tipo' />
-                    <TableHeader label='Categoría' />
-                    <TableHeader label='Cantidad' className='text-right' />
-                  </>
-                }
-              >
-                {(transaction, i) => (
-                  <TableRow key={transaction.id}>
-                    <TableDataCell>{i + 1}</TableDataCell>
-                    <TableDataCell>
-                      <div className='text-slate-500 font-semibold'>
-                        {transaction.date}
-                      </div>
-                      <div className='text-base text-slate-600'>
-                        {transaction.notes}
-                      </div>
-                    </TableDataCell>
-                    <TableDataCell>{transaction.type}</TableDataCell>
-                    <TableDataCell>{transaction.category}</TableDataCell>
-                    <TableDataCell className='text-right font-semibold'>
-                      {transaction.amount}
-                    </TableDataCell>
-                  </TableRow>
-                )}
-              </Table>
+            <>
+              <div className='flex flex-col space-y-4 bg-white border-b rounded-xl pb-5 border'>
+                <div className='hidden sm:block'>
+                  <Table
+                    values={transactions}
+                    header={
+                      <>
+                        <TableHeader label='#' className='sm:w-5' />
+                        <TableHeader label='Fecha' />
+                        <TableHeader label='Tipo' className='text-center' />
+                        <TableHeader
+                          label='Categoría'
+                          className='text-center'
+                        />
+                        <TableHeader label='Cantidad' className='text-right' />
+                      </>
+                    }
+                  >
+                    {(transaction, i) => (
+                      <TableRow key={transaction.id}>
+                        <TableDataCell>{i + 1}</TableDataCell>
+                        <TableDataCell>
+                          <div className='text-slate-500 font-semibold'>
+                            {formatDate(transaction.date)}
+                          </div>
+                          <div className='text-base text-slate-600'>
+                            {transaction.notes}
+                          </div>
+                        </TableDataCell>
+                        <TableDataCell className='text-center'>
+                          <Pill
+                            color={
+                              transaction.type === TRANSACTION_TYPE.INCOME
+                                ? 'teal'
+                                : 'blue'
+                            }
+                            label={
+                              transaction.type === TRANSACTION_TYPE.INCOME
+                                ? 'Ingreso'
+                                : 'Egreso'
+                            }
+                          />
+                        </TableDataCell>
+                        <TableDataCell className='text-center'>
+                          <Pill
+                            {...categoryProps(transaction.category as CATEGORY)}
+                          />
+                        </TableDataCell>
+                        <TableDataCell className='text-right font-semibold text-slate-600'>
+                          {formatCurrency(transaction.amount)}
+                        </TableDataCell>
+                      </TableRow>
+                    )}
+                  </Table>
+                </div>
 
-              <div className='text-center text-sm text-slate-400 space-x-1'>
-                <span>{data?.me?.transactions.length}</span>
-                <span>de</span>
-                <span>{data?.me?.transactionsCount}</span>
+                <div className='block sm:hidden'>
+                  <List values={transactions}>
+                    {(transaction, i) => (
+                      <TransactionItem
+                        key={transaction.id}
+                        data={transaction}
+                      />
+                    )}
+                  </List>
+                </div>
+
+                <div className='text-center text-sm text-slate-400 space-x-1'>
+                  <span>{data?.me?.transactions.length}</span>
+                  <span>de</span>
+                  <span>{data?.me?.transactionsCount}</span>
+                </div>
+
+                {!loading &&
+                  data?.me?.transactions &&
+                  data.me.transactionsCount > data.me.transactions.length && (
+                    <div className='flex flex-col justify-center px-4'>
+                      <button
+                        className='flex items-center justify-center px-4 py-2 rounded-md transition-all ease-in-out hover:bg-brand-50 hover:opacity-75'
+                        onClick={() =>
+                          fetchMore({
+                            variables: { offset: data.me?.transactions.length }
+                          })
+                        }
+                      >
+                        <div className='text-brand-900 text-sm font-medium'>
+                          Ver más
+                        </div>
+                      </button>
+                    </div>
+                  )}
               </div>
-
-              {!loading &&
-                data?.me?.transactions &&
-                data.me.transactionsCount > data.me.transactions.length && (
-                  <div className='flex flex-col justify-center px-4'>
-                    <button
-                      className='mt-4 flex items-center justify-center px-4 py-2 rounded-md transition-all ease-in-out hover:bg-brand-50 hover:opacity-75'
-                      onClick={() =>
-                        fetchMore({
-                          variables: { offset: data.me?.transactions.length }
-                        })
-                      }
-                    >
-                      <div className='text-brand-900 text-sm font-medium'>
-                        Ver más
-                      </div>
-                    </button>
-                  </div>
-                )}
-            </div>
+            </>
           ))}
       </div>
     </div>
+  );
+}
+
+function TransactionItem({ data }: { data: Transaction }) {
+  return (
+    <ListItem>
+      <a href={`/transactions/${data.id}`} className='block hover:bg-gray-50'>
+        <div className='flex items-center justify-between px-4 py-4 sm:px-6'>
+          <div className='flex flex-col'>
+            <div className='flex space-x-2'>
+              <div className='text-sm'>{formatDate(data.date)}</div>
+
+              <Pill size='tiny' {...categoryProps(data.category as CATEGORY)} />
+            </div>
+            <div className='text-ellipsis text-slate-500 text-sm'>
+              {data.notes}
+            </div>
+          </div>
+          <div className='text-sm font-semibold text-slate-600'>
+            {formatCurrency(data.amount)}
+          </div>
+        </div>
+      </a>
+    </ListItem>
   );
 }
 
@@ -183,4 +247,32 @@ function Empty() {
       </div>
     </div>
   );
+}
+
+export function categoryProps(category: CATEGORY): PillProps {
+  switch (category) {
+    case CATEGORY.CAR:
+      return { label: 'Vehículo', color: 'sky' };
+
+    case CATEGORY.ENTERTAINMENT:
+      return { label: 'Entretenimiento', color: 'purple' };
+
+    case CATEGORY.FOOD:
+      return { label: 'Comida', color: 'rose' };
+
+    case CATEGORY.HOME:
+      return { label: 'Hogar', color: 'yellow' };
+
+    case CATEGORY.PAYMENT:
+      return { label: 'Pago', color: 'teal' };
+
+    case CATEGORY.SERVICE:
+      return { label: 'Servicio', color: 'pink' };
+
+    case CATEGORY.OTHER:
+      return { label: 'Otro', color: 'teal' };
+
+    default:
+      return { label: 'ERROR', color: 'gray' };
+  }
 }

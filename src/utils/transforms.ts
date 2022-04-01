@@ -11,6 +11,25 @@ export function formatSimpleDate(givenDate: Date | string) {
   return format(date, 'yyyy-MM-dd');
 }
 
-export function formatDate(givenDate: Date) {
-  return format(givenDate, 'EEEE, dd MMMM yy', { locale: esLocale });
+export function formatDate(
+  givenDate: Date | string,
+  type: 'extended' | 'short' = 'short'
+) {
+  const date = new Date(givenDate);
+  return format(date, type === 'extended' ? 'EEEE, dd MMMM yy' : 'dd/MM/yy', {
+    locale: esLocale
+  });
+}
+
+export function formatCurrency(amount: number) {
+  if (amount == null || isNaN(amount)) {
+    return '-';
+  }
+
+  const currencyAmount = new Intl.NumberFormat('es-HN', {
+    style: 'currency',
+    currency: 'HNL'
+  }).format(amount);
+
+  return currencyAmount;
 }
