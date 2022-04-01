@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { BudgetInfoFragment, BudgetList } from '../Budgets/BudgetList';
 import {
-  TransactionInfoFragment,
+  BaseTransactionInfoFragment,
   TransactionList
 } from '../Transactions/TransactionsList';
 import {
@@ -23,7 +23,7 @@ export function Dashboard() {
       }
     }
     ${BudgetInfoFragment}
-    ${TransactionInfoFragment}
+    ${BaseTransactionInfoFragment}
   `);
 
   const transactions = data?.me?.transactions ?? [];

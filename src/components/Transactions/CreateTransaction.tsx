@@ -14,7 +14,7 @@ import {
   CreateTransactionMutationVariables
 } from './__generated__/CreateTransaction.generated';
 import { useRouter } from 'next/router';
-import { TransactionInfoFragment } from './TransactionsList';
+import { TransactionFragment } from './ViewTransaction';
 
 const createTransactionSchema = object().shape({
   date: date(),
@@ -34,12 +34,10 @@ export function CreateTransaction() {
       mutation CreateTransactionMutation($input: CreateTransactionInput!) {
         createTransaction(input: $input) {
           id
-          date
-          type
-          ...TransactionInfo_transaction
+          ...Transaction_transaction
         }
       }
-      ${TransactionInfoFragment}
+      ${TransactionFragment}
     `,
     {
       update(cache, { data }) {

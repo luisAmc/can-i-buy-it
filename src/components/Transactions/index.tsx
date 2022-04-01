@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
-import { PlusIcon } from '@heroicons/react/outline';
+import { PlusIcon, ZoomInIcon } from '@heroicons/react/outline';
 import { Table, TableDataCell, TableHeader, TableRow } from '../shared/Table';
-import { TransactionInfoFragment } from './TransactionsList';
 import Link from 'next/link';
 import {
   TransactionsQuery,
@@ -12,6 +11,7 @@ import { CATEGORY, TRANSACTION_TYPE } from '@prisma/client';
 import { formatCurrency, formatDate } from 'src/utils/transforms';
 import { List, ListItem } from '../shared/List';
 import { Transaction } from 'src/__generated__/schema.generated';
+import { TransactionFragment } from './ViewTransaction';
 
 export const query = gql`
   query TransactionsQuery($offset: Int, $limit: Int) {
@@ -20,13 +20,11 @@ export const query = gql`
       transactionsCount
       transactions(offset: $offset, limit: $limit) {
         id
-        date
-        type
-        ...TransactionInfo_transaction
+        ...Transaction_transaction
       }
     }
   }
-  ${TransactionInfoFragment}
+  ${TransactionFragment}
 `;
 
 export function Transactions() {
@@ -85,6 +83,7 @@ export function Transactions() {
                           className='text-center'
                         />
                         <TableHeader label='Cantidad' className='text-right' />
+                        <TableHeader label='' className='sm:w-6 text-center' />
                       </>
                     }
                   >
@@ -120,6 +119,17 @@ export function Transactions() {
                         </TableDataCell>
                         <TableDataCell className='text-right font-semibold text-slate-600'>
                           {formatCurrency(transaction.amount)}
+                        </TableDataCell>
+
+                        <TableDataCell className='text-center'>
+                          <Link
+                            href={`/transactions/${transaction.id}`}
+                            passHref
+                          >
+                            <a className='w-6 h-6 flex items-center justify-center rounded-full hover:bg-brand-100 text-brand-800'>
+                              <ZoomInIcon className='w-4 h-4' />
+                            </a>
+                          </Link>
                         </TableDataCell>
                       </TableRow>
                     )}

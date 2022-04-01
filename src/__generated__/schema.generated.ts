@@ -58,6 +58,12 @@ export type MutationSignUpArgs = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  transaction: Transaction;
+};
+
+
+export type QueryTransactionArgs = {
+  id: Scalars['ID'];
 };
 
 export type SignUpInput = {
@@ -73,6 +79,7 @@ export type Transaction = {
   id: Scalars['ID'];
   notes?: Maybe<Scalars['String']>;
   type: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type User = {

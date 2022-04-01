@@ -10,9 +10,24 @@ builder.prismaObject('Transaction', {
     amount: t.exposeFloat('amount'),
     notes: t.exposeString('notes', { nullable: true }),
     category: t.exposeString('category'),
-    type: t.exposeString('type')
+    type: t.exposeString('type'),
+    updatedAt: t.expose('updatedAt', { type: 'DateTime' })
   })
 });
+
+builder.queryField('transaction', (t) =>
+  t.prismaField({
+    type: 'Transaction',
+    args: { id: t.arg.id() },
+    resolve: (query, _parent, { id }, { session }) => {
+      return db.transaction.findFirst({
+        ...query,
+        where: { id: id, userId: session!.userId },
+        rejectOnNotFound: true
+      });
+    }
+  })
+);
 
 const CreateTransactionInput = builder.inputType('CreateTransactionInput', {
   fields: (t) => ({

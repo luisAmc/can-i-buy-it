@@ -5,7 +5,7 @@ import { Container } from '../shared/Container';
 import { List, ListItem } from '../shared/List';
 import { TransactionInfo_Transaction } from './__generated__/TransactionsList.generated';
 
-export const TransactionInfoFragment = gql`
+export const BaseTransactionInfoFragment = gql`
   fragment TransactionInfo_transaction on Transaction {
     id
     category
