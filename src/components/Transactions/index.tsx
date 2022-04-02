@@ -6,12 +6,14 @@ import {
   TransactionsQuery,
   TransactionsQueryVariables
 } from './__generated__/index.generated';
-import { Pill, Props as PillProps } from '../shared/Pill';
+import { Pill } from '../shared/Pill';
 import { CATEGORY, TRANSACTION_TYPE } from '@prisma/client';
 import { formatCurrency, formatDate } from 'src/utils/transforms';
 import { List, ListItem } from '../shared/List';
 import { Transaction } from 'src/__generated__/schema.generated';
 import { TransactionFragment } from './ViewTransaction';
+import { getCategoryProps } from './utils/getCategoryProps';
+import { Button } from '../shared/Button';
 
 export const query = gql`
   query TransactionsQuery($offset: Int, $limit: Int) {
@@ -43,17 +45,10 @@ export function Transactions() {
             Transacciones
           </h1>
 
-          <Link href='/transactions/create' passHref>
-            <a
-              href='/'
-              className='bg-brand-100 text-center rounded-full py-3 px-4 text-brand-500 font-semibold shadow-md hover:opacity-75'
-            >
-              <div className='flex flex-row items-center justify-center'>
-                <PlusIcon className='w-4 h-4 mr-1' />
-                <span>Añadir una más</span>
-              </div>
-            </a>
-          </Link>
+          <Button href='/transactions/create' variant='floating'>
+            <PlusIcon className='w-4 h-4 mr-1' />
+            <span>Añadir una más</span>
+          </Button>
         </div>
 
         <img
@@ -114,7 +109,9 @@ export function Transactions() {
                         </TableDataCell>
                         <TableDataCell className='text-center'>
                           <Pill
-                            {...categoryProps(transaction.category as CATEGORY)}
+                            {...getCategoryProps(
+                              transaction.category as CATEGORY
+                            )}
                           />
                         </TableDataCell>
                         <TableDataCell className='text-right font-semibold text-slate-600'>
@@ -188,7 +185,10 @@ function TransactionItem({ data }: { data: Transaction }) {
             <div className='flex space-x-2'>
               <div className='text-sm'>{formatDate(data.date)}</div>
 
-              <Pill size='tiny' {...categoryProps(data.category as CATEGORY)} />
+              <Pill
+                size='tiny'
+                {...getCategoryProps(data.category as CATEGORY)}
+              />
             </div>
             <div className='text-ellipsis text-slate-500 text-sm'>
               {data.notes}
@@ -257,32 +257,4 @@ function Empty() {
       </div>
     </div>
   );
-}
-
-export function categoryProps(category: CATEGORY): PillProps {
-  switch (category) {
-    case CATEGORY.CAR:
-      return { label: 'Vehículo', color: 'sky' };
-
-    case CATEGORY.ENTERTAINMENT:
-      return { label: 'Entretenimiento', color: 'purple' };
-
-    case CATEGORY.FOOD:
-      return { label: 'Comida', color: 'rose' };
-
-    case CATEGORY.HOME:
-      return { label: 'Hogar', color: 'yellow' };
-
-    case CATEGORY.PAYMENT:
-      return { label: 'Pago', color: 'teal' };
-
-    case CATEGORY.SERVICE:
-      return { label: 'Servicio', color: 'pink' };
-
-    case CATEGORY.OTHER:
-      return { label: 'Otro', color: 'teal' };
-
-    default:
-      return { label: 'ERROR', color: 'gray' };
-  }
 }

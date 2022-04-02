@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import { PlusIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import { Button } from '../shared/Button';
 import { Container } from '../shared/Container';
 import { List, ListItem } from '../shared/List';
 import { TransactionInfo_Transaction } from './__generated__/TransactionsList.generated';
@@ -24,14 +25,10 @@ export function TransactionList({ transactions }: Props) {
       title='Últimas 5 transacciones'
       size='full'
       action={
-        <Link href='/transactions/create' passHref>
-          <a className='flex items-center justify-center px-4 py-2 rounded-md bg-brand-50 hover:opacity-75'>
-            <div className='text-sm flex items-center text-brand-900 font-medium'>
-              <PlusIcon className='w-4 h-4 mr-1' />
-              <span>Añadir</span>
-            </div>
-          </a>
-        </Link>
+        <Button href='/transactions/create'>
+          <PlusIcon className='w-4 h-4 mr-1' />
+          <span>Añadir</span>
+        </Button>
       }
     >
       <div className='mb-5'>

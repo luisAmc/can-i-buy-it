@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { CATEGORY } from '@prisma/client';
 import { useRouter } from 'next/router';
 import {
@@ -6,10 +7,11 @@ import {
   formatDate,
   formatDatetime
 } from 'src/utils/transforms';
-import { categoryProps } from '.';
+import { Button } from '../shared/Button';
 import { Container } from '../shared/Container';
 import { Pill } from '../shared/Pill';
 import { BaseTransactionInfoFragment } from './TransactionsList';
+import { getCategoryProps } from './utils/getCategoryProps';
 import {
   ViewTransactionQuery,
   ViewTransactionQueryVariables
@@ -48,12 +50,28 @@ export function ViewTransaction() {
   });
 
   return (
-    <Container title='Transacción'>
+    <Container
+      title='Transacción'
+      action={
+        <div className='w-full flex flex-col sm:justify-end sm:flex-row items-center gap-2'>
+          <Button color='secondary'>
+            <PencilIcon className='w-4 h-4 mr-1' />
+            <span>Editar</span>
+          </Button>
+          <Button color='danger'>
+            <TrashIcon className='w-4 h-4 mr-1' />
+            <span>Elimnar</span>
+          </Button>
+        </div>
+      }
+    >
       {data?.transaction && (
         <div className='flex flex-col gap-3 md:w-[462px]'>
           <div className='flex items-center justify-between'>
             <div>{formatDate(data.transaction.date)}</div>
-            <Pill label={data.transaction.category} color='purple' />
+            <Pill
+              {...getCategoryProps(data.transaction.category as CATEGORY)}
+            />
           </div>
 
           <div className='text-5xl text-center text-gray-800 w-full px-4 py-8 '>
