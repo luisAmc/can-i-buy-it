@@ -58,3 +58,71 @@ builder.mutationField('createTransaction', (t) =>
     }
   })
 );
+
+const EditTransactionInput = builder.inputType('EditTransactionInput', {
+  fields: (t) => ({
+    id: t.id(),
+    date: t.field({ type: 'DateTime' }),
+    amount: t.float(),
+    notes: t.string(),
+    category: t.string(),
+    type: t.string()
+  })
+});
+
+builder.mutationField('editTransaction', (t) =>
+  t.prismaField({
+    type: 'Transaction',
+    args: { input: t.arg({ type: EditTransactionInput }) },
+    resolve: async (query, _parent, { input }, { session }) => {
+      const transaction = await db.transaction.findFirst({
+        where: {
+          id: input.id,
+          userId: session!.userId
+        },
+        rejectOnNotFound: true
+      });
+
+      return db.transaction.update({
+        ...query,
+        where: {
+          id: transaction.id
+        },
+        data: {
+          date: input.date,
+          amount: input.amount,
+          notes: input.notes,
+          category: CATEGORY[input.category as keyof typeof CATEGORY],
+          type: TRANSACTION_TYPE[input.type as keyof typeof TRANSACTION_TYPE]
+        }
+      });
+    }
+  })
+);
+
+const DeleteTransactionInput = builder.inputType('DeleteTransactionInput', {
+  fields: (t) => ({
+    id: t.id()
+  })
+});
+
+builder.mutationField('deleteTransaction', (t) =>
+  t.prismaField({
+    type: 'Transaction',
+    args: { input: t.arg({ type: DeleteTransactionInput }) },
+    resolve: async (query, _parent, { input }, { session }) => {
+      const transaction = await db.transaction.findFirst({
+        where: {
+          id: input.id,
+          userId: session!.userId
+        },
+        rejectOnNotFound: true
+      });
+
+      return db.transaction.delete({
+        ...query,
+        where: { id: transaction.id }
+      });
+    }
+  })
+);

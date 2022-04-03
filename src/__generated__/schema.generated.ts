@@ -28,6 +28,19 @@ export type CreateTransactionInput = {
   type: Scalars['String'];
 };
 
+export type DeleteTransactionInput = {
+  id: Scalars['ID'];
+};
+
+export type EditTransactionInput = {
+  amount: Scalars['Float'];
+  category: Scalars['String'];
+  date: Scalars['DateTime'];
+  id: Scalars['ID'];
+  notes: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type LoginInput = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -36,6 +49,8 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTransaction: Transaction;
+  deleteTransaction: Transaction;
+  editTransaction: Transaction;
   login: User;
   signUp: User;
 };
@@ -43,6 +58,16 @@ export type Mutation = {
 
 export type MutationCreateTransactionArgs = {
   input: CreateTransactionInput;
+};
+
+
+export type MutationDeleteTransactionArgs = {
+  input: DeleteTransactionInput;
+};
+
+
+export type MutationEditTransactionArgs = {
+  input: EditTransactionInput;
 };
 
 

@@ -8,3 +8,10 @@ export type ViewTransactionQueryVariables = Types.Exact<{
 
 
 export type ViewTransactionQuery = { __typename?: 'Query', transaction: { __typename?: 'Transaction', id: string, date: string, type: string, updatedAt: string, category: string, amount: number, notes?: string | null } };
+
+export type ViewTransactionDeleteMutationVariables = Types.Exact<{
+  input: Types.DeleteTransactionInput;
+}>;
+
+
+export type ViewTransactionDeleteMutation = { __typename?: 'Mutation', deleteTransaction: { __typename?: 'Transaction', id: string } };

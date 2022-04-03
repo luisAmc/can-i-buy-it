@@ -14,6 +14,19 @@ input CreateTransactionInput {
 
 scalar DateTime
 
+input DeleteTransactionInput {
+  id: ID!
+}
+
+input EditTransactionInput {
+  amount: Float!
+  category: String!
+  date: DateTime!
+  id: ID!
+  notes: String!
+  type: String!
+}
+
 input LoginInput {
   password: String!
   username: String!
@@ -21,6 +34,8 @@ input LoginInput {
 
 type Mutation {
   createTransaction(input: CreateTransactionInput!): Transaction!
+  deleteTransaction(input: DeleteTransactionInput!): Transaction!
+  editTransaction(input: EditTransactionInput!): Transaction!
   login(input: LoginInput!): User!
   signUp(input: SignUpInput!): User!
 }
