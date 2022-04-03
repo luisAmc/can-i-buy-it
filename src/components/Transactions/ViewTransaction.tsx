@@ -13,9 +13,8 @@ import {
   formatDatetime
 } from 'src/utils/transforms';
 import { Button } from '../shared/Button';
-import { ConfirmationModal } from '../shared/ConfirmationModal';
 import { Container } from '../shared/Container';
-import { useModal } from '../shared/Modal';
+import { Modal, useModal } from '../shared/Modal';
 import { Pill } from '../shared/Pill';
 import { BaseTransactionInfoFragment } from './TransactionsList';
 import { getCategoryProps } from './utils/getCategoryProps';
@@ -52,6 +51,8 @@ export function ViewTransaction() {
 
   const confirmationModal = useModal();
 
+  // TODO: Add loading and error states
+
   const { data, loading, error } = useQuery<
     ViewTransactionQuery,
     ViewTransactionQueryVariables
@@ -59,6 +60,8 @@ export function ViewTransaction() {
     variables: { id: router.query.transactionId as string },
     skip: !router.isReady
   });
+
+  // TODO: Add handling when the delete mutation fails
 
   const [deleteTransaction, deleteTransactionResult] = useMutation<
     ViewTransactionDeleteMutation,
@@ -104,15 +107,7 @@ export function ViewTransaction() {
               <span>Editar</span>
             </Button>
 
-            <Button
-              color='danger'
-              onClick={confirmationModal.open}
-              // onClick={() =>
-              //   deleteTransaction({
-              //     variables: { input: { id: data.transaction.id } }
-              //   })
-              // }
-            >
+            <Button color='danger' onClick={confirmationModal.open}>
               <TrashIcon className='w-4 h-4 mr-1' />
               <span>Borrar</span>
             </Button>
@@ -143,7 +138,7 @@ export function ViewTransaction() {
             {formatDatetime(data.transaction.updatedAt)}
           </div>
 
-          <ConfirmationModal {...confirmationModal.props}>
+          <Modal {...confirmationModal.props}>
             <div className='flex flex-col gap-6'>
               <div className='flex items-center justify-center'>
                 <div className='p-4 bg-red-100 rounded-full'>
@@ -173,7 +168,7 @@ export function ViewTransaction() {
                 </Button>
               </div>
             </div>
-          </ConfirmationModal>
+          </Modal>
         </div>
       )}
 
