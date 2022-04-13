@@ -2,6 +2,7 @@ type Budget {
   category: String!
   id: ID!
   limit: Float!
+  updatedAt: DateTime!
 }
 
 input CreateTransactionInput {
@@ -37,15 +38,17 @@ type Mutation {
   deleteTransaction(input: DeleteTransactionInput!): Transaction!
   editTransaction(input: EditTransactionInput!): Transaction!
   login(input: LoginInput!): User!
-  signUp(input: SignUpInput!): User!
+  signup(input: SignupInput!): User!
+  updateBudget(input: UpdateBudgetInput!): Budget!
 }
 
 type Query {
+  budget(id: ID!): Budget!
   me: User
   transaction(id: ID!): Transaction!
 }
 
-input SignUpInput {
+input SignupInput {
   password: String!
   username: String!
 }
@@ -58,6 +61,12 @@ type Transaction {
   notes: String
   type: String!
   updatedAt: DateTime!
+}
+
+input UpdateBudgetInput {
+  category: String!
+  id: ID!
+  limit: Float!
 }
 
 type User {

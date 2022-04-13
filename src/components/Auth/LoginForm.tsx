@@ -9,6 +9,8 @@ import {
   LoginFormMutation,
   LoginFormMutationVariables
 } from './__generated__/LoginForm.generated';
+import { SubmitButton } from '../shared/SubmitButton';
+import { Link } from '../shared/Link';
 
 const loginSchema = object().shape({
   username: string().trim().required('Ingrese el nombre de usuario.'),
@@ -62,13 +64,14 @@ export function LoginForm() {
           type='password'
         />
 
-        <button
-          type='submit'
-          className='border rounded-md py-2 px-5 bg-red-200 hover:opacity-75'
-        >
-          Ingresar
-        </button>
+        <SubmitButton>Ingresar</SubmitButton>
       </Form>
+
+      <div className='text-right mt-4'>
+        <Link href='/auth/signup' preserveRedirect>
+          Crear usuario
+        </Link>
+      </div>
     </Container>
   );
 }

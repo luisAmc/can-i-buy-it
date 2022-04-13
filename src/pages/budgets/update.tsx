@@ -3,4 +3,4 @@ import { authenticatedRoute } from 'src/utils/redirects';
 
 export const getServerSideProps: GetServerSideProps = authenticatedRoute;
 
-export { CreateTransaction as default } from 'src/components/shared/CreateTransaction';
+export { UpdateBudget as default } from 'src/components/Budgets/UpdateBudget';

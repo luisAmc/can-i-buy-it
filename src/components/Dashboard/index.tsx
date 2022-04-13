@@ -31,8 +31,8 @@ export function Dashboard() {
 
   return (
     <div className='grid md:grid-cols-2 gap-4'>
-      <TransactionList transactions={transactions} />
       <BudgetList budgets={budgets} />
+      <TransactionList transactions={transactions} />
     </div>
   );
 }

@@ -18,6 +18,7 @@ export type Budget = {
   category: Scalars['String'];
   id: Scalars['ID'];
   limit: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type CreateTransactionInput = {
@@ -52,7 +53,8 @@ export type Mutation = {
   deleteTransaction: Transaction;
   editTransaction: Transaction;
   login: User;
-  signUp: User;
+  signup: User;
+  updateBudget: Budget;
 };
 
 
@@ -76,14 +78,25 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationSignUpArgs = {
-  input: SignUpInput;
+export type MutationSignupArgs = {
+  input: SignupInput;
+};
+
+
+export type MutationUpdateBudgetArgs = {
+  input: UpdateBudgetInput;
 };
 
 export type Query = {
   __typename?: 'Query';
+  budget: Budget;
   me?: Maybe<User>;
   transaction: Transaction;
+};
+
+
+export type QueryBudgetArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -91,7 +104,7 @@ export type QueryTransactionArgs = {
   id: Scalars['ID'];
 };
 
-export type SignUpInput = {
+export type SignupInput = {
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -105,6 +118,12 @@ export type Transaction = {
   notes?: Maybe<Scalars['String']>;
   type: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type UpdateBudgetInput = {
+  category: Scalars['String'];
+  id: Scalars['ID'];
+  limit: Scalars['Float'];
 };
 
 export type User = {

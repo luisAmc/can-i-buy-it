@@ -25,7 +25,7 @@ export function Container({ title, action, size = 'lg', children }: Props) {
     >
       {(title || action) && (
         <div className='flex flex-col sm:flex-row items-center justify-between mb-8 gap-2'>
-          <h1 className='w-full text-3xl font-medium'>{title}</h1>
+          <h1 className='w-full text-3xl font-medium text-slate-600'>{title}</h1>
           {action}
         </div>
       )}

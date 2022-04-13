@@ -6,7 +6,11 @@ builder.prismaObject('User', {
   fields: (t) => ({
     id: t.exposeID('id'),
     username: t.exposeString('username'),
-    budgets: t.relation('budgets'),
+    budgets: t.relation('budgets', {
+      query: () => ({
+        orderBy: { category: 'asc' }
+      })
+    }),
     transactions: t.relation('transactions', {
       args: {
         offset: t.arg.int({ defaultValue: 0 }),

@@ -11,7 +11,14 @@ module.exports = {
     extend: {
       colors: {
         ...colors,
-        brand: brandColor
+        brand: brandColor,
+        'category-payment': colors.teal,
+        'category-entertainment': colors.purple,
+        'category-food': colors.rose,
+        'category-car': colors.sky,
+        'category-home': colors.yellow,
+        'category-service': colors.pink,
+        'category-other': colors.teal
       },
       ringColor: {
         DEFAULT: brandColor['500']

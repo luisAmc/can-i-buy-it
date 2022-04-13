@@ -1,24 +1,27 @@
-import { AmountInput } from '../shared/AmountInput';
+import { AmountInput } from './AmountInput';
 import { CATEGORY, TRANSACTION_TYPE } from '@prisma/client';
-import { CategorySelector } from './CategorySelector';
-import { Container } from '../shared/Container';
-import { date, number, object, string } from 'yup';
-import { Form, useYupForm } from '../shared/Form';
+import { CategorySelector } from '../Transactions/CategorySelector';
+import { Container } from './Container';
+import { date, object, string } from 'yup';
+import { Form, useYupForm } from './Form';
 import { formatSimpleDate } from 'src/utils/transforms';
-import { Input } from '../shared/Input';
-import { TextArea } from '../shared/TextArea';
+import { Input } from './Input';
+import { TextArea } from './TextArea';
 import { gql, useMutation } from '@apollo/client';
 import { FieldValues } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import { TransactionFragment } from '../Transactions/ViewTransaction';
+import { numberShape } from 'src/utils/shapes';
 import {
   CreateTransactionMutation,
   CreateTransactionMutationVariables
 } from './__generated__/CreateTransaction.generated';
-import { useRouter } from 'next/router';
-import { TransactionFragment } from './ViewTransaction';
+import { SubmitButton } from './SubmitButton';
+import { PlusIcon } from '@heroicons/react/outline';
 
 const createTransactionSchema = object().shape({
   date: date(),
-  amount: number(),
+  amount: numberShape.moreThan(0, 'La cantidad tiene que ser mayor que cero.'),
   notes: string(),
   category: string()
 });
@@ -114,12 +117,10 @@ export function CreateTransaction() {
 
             <TextArea {...form.register('notes')} label='Notas (Opcional)' />
 
-            <button
-              type='submit'
-              className='bg-brand-200 px-3 py-2 rounded-md font-medium text-brand-700 hover:opacity-75'
-            >
-              Crear transacción
-            </button>
+            <SubmitButton>
+              <PlusIcon className='w-4 h-4 mr-1' />
+              <span>Crear Transacción</span>
+            </SubmitButton>
           </Form>
         </Container>
       </div>

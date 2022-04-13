@@ -83,6 +83,12 @@ export function createApolloClient({ initialState, headers }: ClientOptions) {
                 merge(existing = [], incoming) {
                   return [...existing, ...incoming];
                 }
+              },
+              budgets: {
+                keyArgs: ['id'],
+                merge(existing = [], incoming) {
+                  return [...existing, ...incoming];
+                }
               }
             }
           }
