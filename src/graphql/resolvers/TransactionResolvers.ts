@@ -2,7 +2,7 @@ import { CATEGORY, TRANSACTION_TYPE } from '@prisma/client';
 import { db } from 'src/utils/prisma';
 import { builder } from '../builder';
 
-builder.prismaObject('Transaction', {
+export const TransactionRef = builder.prismaObject('Transaction', {
   findUnique: (transaction) => ({ id: transaction.id }),
   fields: (t) => ({
     id: t.exposeID('id'),

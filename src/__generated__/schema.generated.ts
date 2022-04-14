@@ -21,6 +21,18 @@ export type Budget = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type BudgetTransactions = {
+  __typename?: 'BudgetTransactions';
+  total: Scalars['Float'];
+  transactions: Array<Transaction>;
+};
+
+export type BudgetTransactionsInput = {
+  end: Scalars['DateTime'];
+  id: Scalars['ID'];
+  start: Scalars['DateTime'];
+};
+
 export type CreateTransactionInput = {
   amount: Scalars['Float'];
   category: Scalars['String'];
@@ -90,6 +102,7 @@ export type MutationUpdateBudgetArgs = {
 export type Query = {
   __typename?: 'Query';
   budget: Budget;
+  budgetTransactions: BudgetTransactions;
   me?: Maybe<User>;
   transaction: Transaction;
 };
@@ -97,6 +110,11 @@ export type Query = {
 
 export type QueryBudgetArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryBudgetTransactionsArgs = {
+  input: BudgetTransactionsInput;
 };
 
 
@@ -121,7 +139,6 @@ export type Transaction = {
 };
 
 export type UpdateBudgetInput = {
-  category: Scalars['String'];
   id: Scalars['ID'];
   limit: Scalars['Float'];
 };

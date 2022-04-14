@@ -1,7 +1,4 @@
 import clsx from 'clsx';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { ComponentProps } from 'react';
 import { ButtonOrLink, ButtonOrLinkProps } from './ButtonOrLink';
 
 export interface Props extends ButtonOrLinkProps {

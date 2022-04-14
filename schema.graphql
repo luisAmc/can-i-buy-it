@@ -5,6 +5,17 @@ type Budget {
   updatedAt: DateTime!
 }
 
+type BudgetTransactions {
+  total: Float!
+  transactions: [Transaction!]!
+}
+
+input BudgetTransactionsInput {
+  end: DateTime!
+  id: ID!
+  start: DateTime!
+}
+
 input CreateTransactionInput {
   amount: Float!
   category: String!
@@ -44,6 +55,7 @@ type Mutation {
 
 type Query {
   budget(id: ID!): Budget!
+  budgetTransactions(input: BudgetTransactionsInput!): BudgetTransactions!
   me: User
   transaction(id: ID!): Transaction!
 }
@@ -64,7 +76,6 @@ type Transaction {
 }
 
 input UpdateBudgetInput {
-  category: String!
   id: ID!
   limit: Float!
 }

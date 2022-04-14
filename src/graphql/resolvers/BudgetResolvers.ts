@@ -1,6 +1,6 @@
-import { CATEGORY } from '@prisma/client';
 import { db } from 'src/utils/prisma';
 import { builder } from '../builder';
+import { TransactionRef } from './TransactionResolvers';
 
 builder.prismaObject('Budget', {
   findUnique: (budget) => ({ id: budget.id }),
@@ -29,11 +29,59 @@ builder.queryField('budget', (t) =>
   })
 );
 
+const BudgetTransactionsInput = builder.inputType('BudgetTransactionsInput', {
+  fields: (t) => ({
+    id: t.id(),
+    start: t.field({ type: 'DateTime' }),
+    end: t.field({ type: 'DateTime' })
+  })
+});
+
+const BudgetTransactions = builder.simpleObject('BudgetTransactions', {
+  fields: (t) => ({
+    total: t.float(),
+    transactions: t.field({ type: [TransactionRef] })
+  })
+});
+
+builder.queryField('budgetTransactions', (t) =>
+  t.field({
+    type: BudgetTransactions,
+    args: { input: t.arg({ type: BudgetTransactionsInput }) },
+    resolve: async (_parent, { input }, { session }) => {
+      const budget = await db.budget.findFirst({
+        where: {
+          id: input.id,
+          userId: session!.userId
+        },
+        rejectOnNotFound: true
+      });
+
+      // TODO: Fetch only the transactions made between input.start and input.end
+      const transactions = await db.transaction.findMany({
+        where: {
+          category: budget.category,
+          userId: session!.userId
+        }
+      });
+
+      const total = transactions.reduce(
+        (total, transaction) => total + transaction.amount,
+        0
+      );
+
+      return {
+        transactions,
+        total
+      };
+    }
+  })
+);
+
 const UpdateBudgetInput = builder.inputType('UpdateBudgetInput', {
   fields: (t) => ({
     id: t.id(),
-    limit: t.float(),
-    category: t.string()
+    limit: t.float()
   })
 });
 
@@ -56,8 +104,7 @@ builder.mutationField('updateBudget', (t) =>
           id: budget.id
         },
         data: {
-          limit: input.limit,
-          category: CATEGORY[input.category as keyof typeof CATEGORY]
+          limit: input.limit
         }
       });
     }
