@@ -1,23 +1,23 @@
-import { AmountInput } from './AmountInput';
+import { AmountInput } from '../shared/AmountInput';
 import { CATEGORY, TRANSACTION_TYPE } from '@prisma/client';
-import { CategorySelector } from '../Transactions/CategorySelector';
-import { Container } from './Container';
+import { CategorySelector } from './CategorySelector';
+import { Container } from '../shared/Container';
 import { date, object, string } from 'yup';
-import { Form, useYupForm } from './Form';
+import { Form, useYupForm } from '../shared/Form';
 import { formatSimpleDate } from 'src/utils/transforms';
-import { Input } from './Input';
-import { TextArea } from './TextArea';
+import { Input } from '../shared/Input';
+import { TextArea } from '../shared/TextArea';
 import { gql, useMutation } from '@apollo/client';
 import { FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { TransactionFragment } from '../Transactions/ViewTransaction';
+import { TransactionFragment } from './ViewTransaction';
 import { numberShape } from 'src/utils/shapes';
+import { SubmitButton } from '../shared/SubmitButton';
+import { PlusIcon } from '@heroicons/react/outline';
 import {
   CreateTransactionMutation,
   CreateTransactionMutationVariables
 } from './__generated__/CreateTransaction.generated';
-import { SubmitButton } from './SubmitButton';
-import { PlusIcon } from '@heroicons/react/outline';
 
 const createTransactionSchema = object().shape({
   date: date(),
@@ -70,6 +70,8 @@ export function CreateTransaction() {
   });
 
   async function onSubmit(values: FieldValues) {
+    // TODO: add validation to check if the transactions is not going to tip over the budget.
+    // If it is, then we need to display a confirmation modal to the user
     commit({
       variables: {
         input: {
