@@ -13,7 +13,7 @@ import { BudgetFragment, query as BudgetQuery } from './ViewBudget';
 import {
   UpdateBudgetMutation,
   UpdateBudgetMutationVariables
-} from './__generated__/UpdateBudget.old.generated';
+} from './__generated__/UpdateBudget.generated';
 import {
   ViewBudgetQuery,
   ViewBudgetQueryVariables
@@ -54,16 +54,16 @@ export function UpdateBudget() {
     }
   );
 
-  useEffect(() => {
-    if (data?.budget) {
-      form.setValue('limit', data.budget.limit);
-    }
-  }, [data]);
-
   const form = useYupForm({
     schema: updateBudgetSchema,
     defaultValues: { limit: 0 }
   });
+
+  useEffect(() => {
+    if (data?.budget) {
+      form.setValue('limit', data.budget.limit);
+    }
+  }, [data, form]);
 
   async function onSubmit(values: FieldValues) {
     commit({

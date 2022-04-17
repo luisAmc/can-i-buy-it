@@ -51,6 +51,7 @@ export function Transactions() {
           </Button>
         </div>
 
+        {/* eslint-disable-next-line */}
         <img
           src='/images/sign.png'
           className='absolute -right-24 sm:right-8 top-0 sm:-top-20 md:-top-28 w-[200px] sm:w-[350px] md:w-[500px] aspect-auto'
@@ -239,7 +240,8 @@ function Empty() {
   return (
     <div className='bg-white rounded-b-xl'>
       <div className='flex flex-col gap-8 items-center justify-center py-12 px-4'>
-        <img src='/images/searching.png' className='h-[250px] md:h-[350px]' />
+        {/* eslint-disable-next-line */}
+        <img src='/images/searching.png' className='h-[250px] md:h-[350px]' alt='' />
 
         <Link href='/transactions/create' passHref>
           <a className='border-2 border-dashed border-gray-200 rounded-md p-6 hover:bg-gray-50 hover:border-gray-300'>

@@ -5,7 +5,7 @@ interface Props extends ComponentProps<'input'> {
 }
 
 export const BudgetInput = forwardRef<HTMLInputElement, Props>(
-  ({ label, ...props }, ref) => {
+  function BudgetInput({ label, ...props }, ref) {
     return (
       <label className='grid grid-cols-2 items-center py-2'>
         <div className='font-medium text-slate-700 mr-1'>{label}</div>

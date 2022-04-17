@@ -87,11 +87,12 @@ export function CreateTransaction() {
 
   return (
     <div className='relative md:flex md:px-12 xl:p-4'>
+      {/* eslint-disable-next-line */}
       <img
         src='/images/purchasing.png'
         className='absolute hidden md:block h-[90%] right-0 aspect-auto'
+        alt=''
       />
-
       <div className='relative'>
         <Container title='Crear transacción'>
           <Form form={form} onSubmit={onSubmit}>

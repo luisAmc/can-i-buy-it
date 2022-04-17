@@ -5,7 +5,7 @@ interface Props extends ComponentProps<'textarea'> {
 }
 
 export const TextArea = forwardRef<HTMLTextAreaElement, Props>(
-  ({ label, ...props }, ref) => {
+  function TextArea({ label, ...props }, ref) {
     return (
       <label>
         <div className='font-medium text-gray-800 mb-1'>{label}</div>

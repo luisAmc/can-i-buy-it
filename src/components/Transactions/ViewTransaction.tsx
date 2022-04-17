@@ -173,7 +173,8 @@ export function ViewTransaction() {
       )}
 
       <div className='flex justify-center mt-8'>
-        <img src='/images/checking.png' className='h-52 aspect-auto' />
+        {/* eslint-disable-next-line */}
+        <img src='/images/checking.png' className='h-52 aspect-auto' alt=''/>
       </div>
     </Container>
   );
