@@ -11,6 +11,7 @@ import {
 } from './__generated__/LoginForm.generated';
 import { SubmitButton } from '../shared/SubmitButton';
 import { Link } from '../shared/Link';
+import { ErrorMessage } from '../shared/ErrorMessage';
 
 const loginSchema = object().shape({
   username: string().trim().required('Ingrese el nombre de usuario.'),
@@ -23,7 +24,10 @@ const loginSchema = object().shape({
 export function LoginForm() {
   const authRedirect = useAuthRedirect();
 
-  const [login] = useMutation<LoginFormMutation, LoginFormMutationVariables>(
+  const [login, loginResult] = useMutation<
+    LoginFormMutation,
+    LoginFormMutationVariables
+  >(
     gql`
       mutation LoginFormMutation($input: LoginInput!) {
         login(input: $input) {
@@ -35,6 +39,9 @@ export function LoginForm() {
       refetchQueries: [{ query: HeaderQuery }],
       onCompleted() {
         authRedirect();
+      },
+      onError(error) {
+        console.log({ error });
       }
     }
   );
@@ -56,6 +63,8 @@ export function LoginForm() {
           });
         }}
       >
+        <ErrorMessage title='Error de ingreso' error={loginResult.error} />
+
         <Input {...form.register('username')} label='Usuario' />
 
         <Input
