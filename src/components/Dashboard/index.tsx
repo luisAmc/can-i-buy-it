@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { BudgetInfoFragment, BudgetList } from '../Budgets/BudgetList';
+import { Page } from '../shared/Page';
 import {
   BaseTransactionInfoFragment,
   TransactionList
@@ -30,9 +31,11 @@ export function Dashboard() {
   const budgets = data?.me?.budgets ?? [];
 
   return (
-    <div className='grid md:grid-cols-2 gap-4'>
-      <BudgetList budgets={budgets} />
-      <TransactionList transactions={transactions} />
-    </div>
+    <Page>
+      <div className='grid md:grid-cols-2 gap-4'>
+        <BudgetList budgets={budgets} />
+        <TransactionList transactions={transactions} />
+      </div>
+    </Page>
   );
 }

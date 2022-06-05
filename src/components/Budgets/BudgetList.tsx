@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { CATEGORY } from '@prisma/client';
 import clsx from 'clsx';
 import { Container } from '../shared/Container';
+import { Link } from '../shared/Link';
 import { List, ListItem } from '../shared/List';
 import { BudgetInfo_Budget } from './__generated__/BudgetList.generated';
 
@@ -23,8 +24,8 @@ export function BudgetList({ budgets }: Props) {
       {budgets.length > 0 ? (
         <List values={budgets}>
           {(budget) => (
-            <ListItem>
-              <a
+            <ListItem key={budget.id}>
+              <Link
                 href={`/budgets/${budget.id}`}
                 className='block hover:bg-gray-50'
               >
@@ -55,7 +56,7 @@ export function BudgetList({ budgets }: Props) {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </ListItem>
           )}
         </List>

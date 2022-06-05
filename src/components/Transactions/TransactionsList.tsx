@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 import { PlusIcon } from '@heroicons/react/outline';
-import Link from 'next/link';
 import { Button } from '../shared/Button';
 import { Container } from '../shared/Container';
+import { Link } from '../shared/Link';
 import { List, ListItem } from '../shared/List';
 import { TransactionInfo_Transaction } from './__generated__/TransactionsList.generated';
 
@@ -43,12 +43,13 @@ export function TransactionList({ transactions }: Props) {
         )}
       </div>
 
-      <Link href='/transactions' passHref>
-        <a className='mt-4 flex items-center justify-center px-4 py-2 rounded-md transition-all ease-in-out hover:bg-brand-50 hover:opacity-75'>
-          <div className='text-brand-900 text-sm font-medium'>
-            Ver todas las transacciones
-          </div>
-        </a>
+      <Link
+        href='/transactions'
+        className='mt-4 flex items-center justify-center px-4 py-2 rounded-md transition-all ease-in-out hover:bg-brand-50 hover:opacity-75'
+      >
+        <div className='text-brand-900 text-sm font-medium'>
+          Ver todas las transacciones
+        </div>
       </Link>
     </Container>
   );
@@ -57,12 +58,15 @@ export function TransactionList({ transactions }: Props) {
 function TransactionItem({ data }: { data: TransactionInfo_Transaction }) {
   return (
     <ListItem>
-      <a href={`/transactions/${data.id}`} className='block hover:bg-gray-50'>
+      <Link
+        href={`/transactions/${data.id}`}
+        className='block hover:bg-gray-50'
+      >
         <div className='flex justify-between px-4 py-4 sm:px-6'>
           <div className='text-ellipsis'>{data.notes}</div>
           <div>{data.amount}</div>
         </div>
-      </a>
+      </Link>
     </ListItem>
   );
 }

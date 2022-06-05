@@ -1,5 +1,9 @@
 import { gql, useQuery } from '@apollo/client';
-import { PlusIcon, ZoomInIcon } from '@heroicons/react/outline';
+import {
+  ChevronLeftIcon,
+  PlusIcon,
+  ZoomInIcon
+} from '@heroicons/react/outline';
 import { Table, TableDataCell, TableHeader, TableRow } from '../shared/Table';
 import Link from 'next/link';
 import {
@@ -39,7 +43,16 @@ export function Transactions() {
 
   return (
     <div className='mt-4 relative bg-violet-200 rounded-xl overflow-hidden sm:overflow-visible shadow'>
-      <div className='relative pt-12 px-4 md:px-12 pb-6'>
+      <div className='relative pt-8 px-4 md:px-12 pb-6'>
+        <div className='flex mb-2'>
+          <Link href='/'>
+            <div className='flex items-center font-medium px-2 py-1 border border-transparent hover:bg-purple-50 hover:border-purple-100 transition-all cursor-pointer rounded-full'>
+              <ChevronLeftIcon className='w-4 h-4 mr-1' />
+              <span>Regresar</span>
+            </div>
+          </Link>
+        </div>
+
         <div className='w-[200px] md:w-[230px] flex flex-col space-y-2'>
           <h1 className='text-3xl md:text-4xl font-medium text-violet-900'>
             Transacciones
@@ -54,7 +67,7 @@ export function Transactions() {
         {/* eslint-disable-next-line */}
         <img
           src='/images/sign.png'
-          className='absolute -right-24 sm:right-8 top-0 sm:-top-20 md:-top-28 w-[200px] sm:w-[350px] md:w-[500px] aspect-auto'
+          className='absolute -right-0 sm:right-8 top-0 sm:-top-20 md:-top-28 w-[240px] sm:w-[350px] md:w-[500px] aspect-auto'
         />
       </div>
       <div className='relative'>
@@ -241,7 +254,11 @@ function Empty() {
     <div className='bg-white rounded-b-xl'>
       <div className='flex flex-col gap-8 items-center justify-center py-12 px-4'>
         {/* eslint-disable-next-line */}
-        <img src='/images/searching.png' className='h-[250px] md:h-[350px]' alt='' />
+        <img
+          src='/images/searching.png'
+          className='h-[250px] md:h-[350px]'
+          alt=''
+        />
 
         <Link href='/transactions/create' passHref>
           <a className='border-2 border-dashed border-gray-200 rounded-md p-6 hover:bg-gray-50 hover:border-gray-300'>
