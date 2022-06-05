@@ -1,3 +1,4 @@
+import { Session, User } from '@prisma/client';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { resolveSession } from './sessions';
 
@@ -21,6 +22,10 @@ export async function unauthenticatedRoute(
   };
 }
 
+export interface SessionWithUser extends Session {
+  user: User;
+}
+
 export async function authenticatedRoute(
   ctx: GetServerSidePropsContext,
   redirect = '/auth/login'
@@ -38,5 +43,13 @@ export async function authenticatedRoute(
     };
   }
 
-  return { props: {} };
+  const sessionWithUser = session as SessionWithUser;
+
+  return {
+    props: {
+      me: {
+        username: sessionWithUser.user.username
+      }
+    }
+  };
 }

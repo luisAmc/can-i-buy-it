@@ -1,22 +1,15 @@
-import { gql, useQuery } from '@apollo/client';
-import { LoginForm } from '../Auth/LoginForm';
-import { Dashboard } from '../Dashboard';
-import { MeQuery } from './__generated__/index.generated';
+import { LoginForm } from "../Auth/LoginForm";
+import { Dashboard } from "../Dashboard";
 
-const LayoutQuery = gql`
-  query MeQuery {
-    me {
-      id
-      username
-    }
-  }
-`;
+interface Props {
+  data?: {
+    me?: {
+      username: string;
+    };
+  };
+}
 
-export function Home() {
-  const { data, loading } = useQuery<MeQuery>(LayoutQuery);
-
-  if (loading) return <div>Cargando...</div>;
-
+export function Home({ data }: Props) {
   if (!data || !data.me) return <LoginForm />;
 
   return <Dashboard />;

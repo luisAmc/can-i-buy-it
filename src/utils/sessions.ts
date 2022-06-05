@@ -76,7 +76,10 @@ export async function resolveSession({
 
   if (sessionID) {
     session = await db.session.findFirst({
-      where: { id: sessionID, expiresAt: { gte: new Date() } }
+      where: { id: sessionID, expiresAt: { gte: new Date() } },
+      include: {
+        user: true
+      }
     });
 
     if (session) {

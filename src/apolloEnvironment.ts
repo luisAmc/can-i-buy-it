@@ -8,9 +8,18 @@ import {
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { useMemo } from 'react';
 
+export interface SessionProps {
+  props: {
+    me: {
+      username: string;
+    };
+  };
+}
+
 let apolloClient: ApolloClient<any>;
 
 export async function preloadQuery(
+  sessionProps: SessionProps,
   context: GetServerSidePropsContext,
   ...queries: QueryOptions[]
 ): Promise<GetServerSidePropsResult<{}>> {
@@ -24,7 +33,10 @@ export async function preloadQuery(
     );
 
     return {
-      props: { initialClientState: client.cache.extract() }
+      props: {
+        ...sessionProps.props,
+        initialClientState: client.cache.extract()
+      }
     };
   } catch (e) {
     if (e instanceof ApolloError) {
@@ -79,16 +91,10 @@ export function createApolloClient({ initialState, headers }: ClientOptions) {
           User: {
             fields: {
               transactions: {
-                keyArgs: ['id'],
-                merge(existing = [], incoming) {
-                  return [...existing, ...incoming];
-                }
+                keyArgs: ['id']
               },
               budgets: {
-                keyArgs: ['id'],
-                merge(existing = [], incoming) {
-                  return [...existing, ...incoming];
-                }
+                keyArgs: ['id']
               }
             }
           }

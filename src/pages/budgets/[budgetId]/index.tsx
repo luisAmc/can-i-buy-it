@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { preloadQuery } from 'src/apolloEnvironment';
+import { preloadQuery, SessionProps } from 'src/apolloEnvironment';
 import { query } from 'src/components/Budgets/ViewBudget';
 import { authenticatedRoute } from 'src/utils/redirects';
 
@@ -14,7 +14,9 @@ export const getServerSideProps: GetServerSideProps<
 
   const budgetId = ctx.params!.budgetId;
 
-  return preloadQuery(ctx, {
+  const sessionProps = auth as SessionProps;
+
+  return preloadQuery(sessionProps, ctx, {
     query,
     variables: { id: budgetId }
   });

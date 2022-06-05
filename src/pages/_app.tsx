@@ -1,15 +1,15 @@
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from 'src/apolloEnvironment';
+import { Layout } from 'src/components/Layout';
 import type { AppProps } from 'next/app';
 import '../styles.css';
-import { Layout } from 'src/components/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const client = useApollo(pageProps.initialClientState);
 
   return (
     <ApolloProvider client={client}>
-      <Layout>
+      <Layout me={pageProps.me}>
         <Component {...pageProps} />
       </Layout>
     </ApolloProvider>

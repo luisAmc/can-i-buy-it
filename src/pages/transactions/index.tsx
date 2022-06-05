@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { preloadQuery } from 'src/apolloEnvironment';
+import { preloadQuery, SessionProps } from 'src/apolloEnvironment';
 import { query } from 'src/components/Transactions';
 import { authenticatedRoute } from 'src/utils/redirects';
 
@@ -9,7 +9,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return auth;
   }
 
-  return preloadQuery(ctx, { query });
+  const sessionProps = auth as SessionProps;
+
+  return preloadQuery(sessionProps, ctx, { query });
 };
 
 export { Transactions as default } from 'src/components/Transactions';
