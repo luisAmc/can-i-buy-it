@@ -26,9 +26,13 @@ export function formatDatetime(
   type: 'extended' | 'short' = 'short'
 ) {
   const date = new Date(givenDate);
-  return format(date, type === 'extended' ? 'EEEE, dd MMMM yy hh:mm aaa' : 'dd/MM/yy hh:mm aaa', {
-    locale: esLocale
-  });
+  return format(
+    date,
+    type === 'extended' ? 'EEEE, dd MMMM yy hh:mm aaa' : 'dd/MM/yy hh:mm aaa',
+    {
+      locale: esLocale
+    }
+  );
 }
 
 export function formatCurrency(amount: number) {
@@ -42,4 +46,18 @@ export function formatCurrency(amount: number) {
   }).format(amount);
 
   return currencyAmount;
+}
+
+export function formatPercentage(amount: number) {
+  if (amount == null || isNaN(amount)) {
+    return '-';
+  }
+
+  const percentFormatter = new Intl.NumberFormat('es-HN', {
+    style: 'percent',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 1
+  });
+
+  return percentFormatter.format(amount);
 }

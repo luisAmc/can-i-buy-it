@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently -c green.bold,blue.bold 'yarn dev:next' 'yarn dev:codegen'",
-    "dev:codegen": "yarn codegen:graphql -- --watch",
+    "dev:codegen": "yarn codegen:graphql --watch",
     "dev:next": "next dev",
     "build": "next build",
     "start": "next start",

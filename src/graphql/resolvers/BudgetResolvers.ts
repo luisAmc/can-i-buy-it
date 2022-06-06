@@ -8,7 +8,24 @@ builder.prismaObject('Budget', {
     id: t.exposeID('id'),
     category: t.exposeString('category'),
     limit: t.exposeFloat('limit'),
-    updatedAt: t.expose('updatedAt', { type: 'DateTime' })
+    updatedAt: t.expose('updatedAt', { type: 'DateTime' }),
+    consumed: t.float({
+      resolve: async ({ category }, _args, { session }) => {
+        const transactions = await db.transaction.findMany({
+          where: {
+            category: category,
+            userId: session?.userId
+          }
+        });
+
+        const consumed = transactions.reduce(
+          (total, transaction) => total + transaction.amount,
+          0
+        );
+
+        return consumed;
+      }
+    })
   })
 });
 

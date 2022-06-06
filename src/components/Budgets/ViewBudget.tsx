@@ -87,7 +87,7 @@ export function ViewBudget() {
 
   return (
     <Page text='Tablero' href='/'>
-      <div className='mt-4 relative bg-amber-200 rounded-xl overflow-hidden sm:overflow-visible shadow'>
+      <div className='mx-auto max-w-4xl mt-4 relative bg-amber-200 rounded-xl overflow-hidden sm:overflow-visible shadow'>
         <div className='relative pt-8 px-4 md:px-12 pb-6'>
           <div className='flex mb-2'>
             <Link href='/'>

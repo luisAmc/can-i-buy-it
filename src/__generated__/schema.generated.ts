@@ -16,6 +16,7 @@ export type Scalars = {
 export type Budget = {
   __typename?: 'Budget';
   category: Scalars['String'];
+  consumed: Scalars['Float'];
   id: Scalars['ID'];
   limit: Scalars['Float'];
   updatedAt: Scalars['DateTime'];

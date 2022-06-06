@@ -1,5 +1,6 @@
 type Budget {
   category: String!
+  consumed: Float!
   id: ID!
   limit: Float!
   updatedAt: DateTime!
