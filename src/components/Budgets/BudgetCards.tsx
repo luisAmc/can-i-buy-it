@@ -5,6 +5,7 @@ import { formatPercentage } from 'src/utils/transforms';
 import { gql } from '@apollo/client';
 import { Link } from '../shared/Link';
 import clsx from 'clsx';
+import { useBudgetColors } from './utils/useBudgetColors';
 
 export const BudgetInfoFragment = gql`
   fragment BudgetInfo_budget on Budget {
@@ -38,20 +39,8 @@ function BudgetCard({ budget }: BudgetCardProps) {
     <Link
       href={`/budgets/${budget.id}`}
       className={clsx(
-        'relative rounded-lg shadow border w-full aspect-square overflow-hidden hover:shadow-md hover:opacity-75 transition ease-in-out',
-        {
-          'bg-category-entertainment-100 border-category-entertainment-200':
-            budget.category === CATEGORY.ENTERTAINMENT,
-          'bg-category-home-100 border-category-home-200':
-            budget.category === CATEGORY.HOME,
-          'bg-category-car-100 border-category-car-200':
-            budget.category === CATEGORY.CAR,
-          'bg-category-service-100 border-category-service-200':
-            budget.category === CATEGORY.SERVICE,
-          'bg-category-food-100 border-category-food-200':
-            budget.category === CATEGORY.FOOD,
-          'bg-gray-100 border-gray-200': budget.category === CATEGORY.OTHER
-        }
+        'relative rounded-lg shadow border w-full aspect-[16/9] lg:aspect-square overflow-hidden hover:shadow-md hover:opacity-75 transition ease-in-out',
+        useBudgetColors(budget.category as CATEGORY)
       )}
     >
       <div

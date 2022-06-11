@@ -1,9 +1,13 @@
 import { gql } from '@apollo/client';
 import { PlusIcon } from '@heroicons/react/outline';
+import { CATEGORY } from '@prisma/client';
+import { formatCurrency, formatDate } from 'src/utils/transforms';
 import { Button } from '../shared/Button';
 import { Container } from '../shared/Container';
 import { Link } from '../shared/Link';
 import { List, ListItem } from '../shared/List';
+import { Pill } from '../shared/Pill';
+import { getCategoryProps } from './utils/getCategoryProps';
 import { TransactionInfo_Transaction } from './__generated__/TransactionsList.generated';
 
 export const BaseTransactionInfoFragment = gql`
@@ -12,6 +16,7 @@ export const BaseTransactionInfoFragment = gql`
     category
     amount
     notes
+    date
   }
 `;
 
@@ -35,7 +40,25 @@ export function TransactionList({ transactions }: Props) {
         {transactions.length > 0 ? (
           <List values={transactions}>
             {(transaction, i) => (
-              <TransactionItem key={transaction.id} data={transaction} />
+              <ListItem key={transaction.id}>
+                <Link
+                  href={`/transactions/${transaction.id}`}
+                  className='block hover:bg-gray-50'
+                >
+                  <div className='grid grid-cols-4 gap-4 px-4 py-4 md:px-6'>
+                    <div>{formatDate(transaction.date)}</div>
+                    <div className='text-ellipsis'>{transaction.notes}</div>
+                    <div className='text-center'>
+                      <Pill
+                        {...getCategoryProps(transaction.category as CATEGORY)}
+                      />
+                    </div>
+                    <div className='text-right'>
+                      {formatCurrency(transaction.amount)}
+                    </div>
+                  </div>
+                </Link>
+              </ListItem>
             )}
           </List>
         ) : (
@@ -52,21 +75,5 @@ export function TransactionList({ transactions }: Props) {
         </div>
       </Link>
     </Container>
-  );
-}
-
-function TransactionItem({ data }: { data: TransactionInfo_Transaction }) {
-  return (
-    <ListItem>
-      <Link
-        href={`/transactions/${data.id}`}
-        className='block hover:bg-gray-50'
-      >
-        <div className='flex justify-between px-4 py-4 sm:px-6'>
-          <div className='text-ellipsis'>{data.notes}</div>
-          <div>{data.amount}</div>
-        </div>
-      </Link>
-    </ListItem>
   );
 }
