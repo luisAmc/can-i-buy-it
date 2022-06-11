@@ -5,6 +5,7 @@ import { formatPercentage } from 'src/utils/transforms';
 import { Container } from '../shared/Container';
 import { Link } from '../shared/Link';
 import { List, ListItem } from '../shared/List';
+import { useBudgetColors } from './utils/useBudgetColors';
 import { BudgetFragment } from './ViewBudget';
 import { BudgetInfo_Budget } from './__generated__/BudgetList.generated';
 
@@ -33,16 +34,10 @@ export function BudgetList({ budgets }: Props) {
                 className='relative hover:opacity-60'
               >
                 <div
-                  className={clsx('absolute w-full h-full', {
-                    'bg-category-entertainment-100':
-                      budget.category === CATEGORY.ENTERTAINMENT,
-                    'bg-category-home-100': budget.category === CATEGORY.HOME,
-                    'bg-category-car-100': budget.category === CATEGORY.CAR,
-                    'bg-category-service-100':
-                      budget.category === CATEGORY.SERVICE,
-                    'bg-category-food-100': budget.category === CATEGORY.FOOD,
-                    'bg-gray-100': budget.category === CATEGORY.OTHER
-                  })}
+                  className={clsx(
+                    'absolute w-full h-full',
+                    useBudgetColors(budget.category as CATEGORY)
+                  )}
                 ></div>
 
                 <div
