@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { BudgetCards } from '../Budgets/BudgetCards';
 import { BudgetInfoFragment, BudgetList } from '../Budgets/BudgetList';
 import { Page } from '../shared/Page';
 import {
@@ -32,10 +33,15 @@ export function Dashboard() {
 
   return (
     <Page>
-      <div className='grid lg:grid-cols-2 gap-4'>
-        <BudgetList budgets={budgets} />
-        <TransactionList transactions={transactions} />
+      <div className='mb-4 hidden sm:block'>
+        <BudgetCards budgets={budgets} />
       </div>
+
+      <div className='block sm:hidden'>
+        <BudgetList budgets={budgets} />
+      </div>
+      
+      <TransactionList transactions={transactions} />
     </Page>
   );
 }
