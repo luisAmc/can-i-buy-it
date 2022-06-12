@@ -4,8 +4,8 @@ import {
   PlusIcon,
   ZoomInIcon
 } from '@heroicons/react/outline';
+import { CalendarIcon } from '@heroicons/react/solid';
 import { Table, TableDataCell, TableHeader, TableRow } from '../shared/Table';
-import Link from 'next/link';
 import {
   TransactionsQuery,
   TransactionsQueryVariables
@@ -18,6 +18,7 @@ import { Transaction } from 'src/__generated__/schema.generated';
 import { TransactionFragment } from './ViewTransaction';
 import { getCategoryProps } from './utils/getCategoryProps';
 import { Button } from '../shared/Button';
+import { Link } from '../shared/Link';
 
 export const query = gql`
   query TransactionsQuery($offset: Int, $limit: Int) {
@@ -45,7 +46,7 @@ export function Transactions() {
     <div className='mt-4 relative bg-violet-200 rounded-xl overflow-hidden sm:overflow-visible shadow'>
       <div className='relative pt-8 px-4 md:px-12 pb-6'>
         <div className='flex mb-2'>
-          <Link href='/'>
+          <Link href='/' className='no-underline'>
             <div className='flex items-center font-medium px-2 py-1 border border-transparent hover:bg-purple-50 hover:border-purple-100 transition-all cursor-pointer rounded-full'>
               <ChevronLeftIcon className='w-4 h-4 mr-1' />
               <span>Regresar</span>
@@ -135,11 +136,11 @@ export function Transactions() {
                         <TableDataCell className='text-center'>
                           <Link
                             href={`/transactions/${transaction.id}`}
-                            passHref
+                            className='no-underline'
                           >
-                            <a className='w-6 h-6 flex items-center justify-center rounded-full hover:bg-brand-100 text-brand-800'>
+                            <div className='w-6 h-6 flex items-center justify-center rounded-full hover:bg-brand-100 text-brand-800'>
                               <ZoomInIcon className='w-4 h-4' />
-                            </a>
+                            </div>
                           </Link>
                         </TableDataCell>
                       </TableRow>
@@ -193,26 +194,31 @@ export function Transactions() {
 function TransactionItem({ data }: { data: Transaction }) {
   return (
     <ListItem>
-      <a href={`/transactions/${data.id}`} className='block hover:bg-gray-50'>
-        <div className='flex items-center justify-between px-4 py-4 sm:px-6'>
-          <div className='flex flex-col'>
-            <div className='flex space-x-2'>
-              <div className='text-sm'>{formatDate(data.date)}</div>
+      <Link
+        href={`/transactions/${data.id}`}
+        className='block hover:bg-gray-50'
+      >
+        <div className='px-4 py-3 flex flex-col space-y-1'>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center space-x-1'>
+              <CalendarIcon className='w-4 h-4 text-gray-500' />
+              <span className='text-sm'>{formatDate(data.date)}</span>
+            </div>
 
-              <Pill
-                size='tiny'
-                {...getCategoryProps(data.category as CATEGORY)}
-              />
-            </div>
-            <div className='text-ellipsis text-slate-500 text-sm'>
-              {data.notes}
-            </div>
+            <Pill
+              size='tiny'
+              {...getCategoryProps(data.category as CATEGORY)}
+            />
           </div>
-          <div className='text-sm font-semibold text-slate-600'>
-            {formatCurrency(data.amount)}
+
+          <div className='flex items-center justify-between'>
+            <p className='truncate'>{data.notes}</p>
+            <div className='text-sm font-semibold'>
+              {formatCurrency(data.amount)}
+            </div>
           </div>
         </div>
-      </a>
+      </Link>
     </ListItem>
   );
 }
@@ -260,8 +266,8 @@ function Empty() {
           alt=''
         />
 
-        <Link href='/transactions/create' passHref>
-          <a className='border-2 border-dashed border-gray-200 rounded-md p-6 hover:bg-gray-50 hover:border-gray-300'>
+        <Link href='/transactions/create'>
+          <div className='border-2 border-dashed border-gray-200 rounded-md p-6 hover:bg-gray-50 hover:border-gray-300'>
             <div className='flex flex-col justify-center items-center'>
               <PlusIcon className='w-8 h-8 text-slate-500 mb-2' />
               <p className='text-center font-bold text-slate-700'>
@@ -271,7 +277,7 @@ function Empty() {
                 Presiona aquí para crear una transacción
               </p>
             </div>
-          </a>
+          </div>
         </Link>
       </div>
     </div>
